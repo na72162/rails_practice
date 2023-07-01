@@ -1,0 +1,15 @@
+ja:
+  hello: "こんにちは"
+  goodbye: "さようなら"
+  errors:
+    messages:
+      blank: "を入力してください"
+      invalid: "が無効です"
+  activerecord:
+    models:
+      user: "ユーザー"
+    attributes:
+      user:
+        name: "名前"
+        email: "メールアドレス"
+

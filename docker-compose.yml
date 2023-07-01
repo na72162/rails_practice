@@ -1,0 +1,83 @@
+# ここのバージョンはcomposeファイル自体のバージョン。docker-composeとは別物
+# 3.8にすると通常restartした際に古いプロセスIDは参照しないはずだけど何故か参照して
+# 毎回コンテナのイメージや諸々削除しないといけなくなるので3.8にはしない。
+version: '3'
+# サービス直下にサービス名を記入。（サービス名とコンテナ名基本同じと考えて良いが実際に生成される
+# コンテナは<project>_<service>_<number>と生成後と前でイコール関係が崩れるのを気をつける。)
+
+services:
+
+  # それぞれのオプションに合わせた親子関係を意識してタブを押さないと
+  # services.ruby.build Additional property volumes is not allowedなどを吐かれる。
+  ruby:
+    build:
+      context: .
+      # コンテナ生成時の設定に使うDockerfileの参照パスを記述
+      dockerfile: ./docker/ruby/Dockerfile
+    #ここのホスト側に指定されている./srcは最初に用意していなくても自動生成される。
+    volumes:
+      - ./src:/var/www/html
+    # memo:今のままの設定だとあまりにもテンプレ過ぎるのでセキュアな設定方法を詮索する
+    environment:
+      - DB_CONNECTION=postgresql
+      - DB_HOST=postgresql
+      - DB_PORT=5432
+      - DB_DATABASE=root
+      - DB_USERNAME=root
+      - DB_PASSWORD=root
+    networks:
+      - app_network
+    # このコマンドが無いとデフォルトのコマンドがirbになりrailsコンテナがdocker compose logs [サービス名]
+    # でrubyコンテナがSwitch to inspect mode.となるので設定の必要がある。　
+    # このコマンドはrailsがある前提のコマンドなので対象のsrcフォルダにrailsアプリ(テンプレートでok)を用意しないとrails newからスタートするため
+    # コンテナの起動がうまくいかない可能性がある。
+    command: bundle exec puma -C config/puma.rb
+
+  nginx:
+    #buildの箇所はコンテナの元になる設計書のdockerfileに関する設定をする。
+    build:
+    #コンテキストはこのcomposeファイルを扱う上でのルートディレクトリやカレントディレクトリを設定する為の物
+      context: .
+      dockerfile: ./docker/nginx/Dockerfile
+      #ローカルとコンテナ内のポートの紐付け箇所。左がローカルのポート番号で右がコンテナ想定。
+      # 基本ポート番号は合わせる(深い意味はない)。他コンテナや何かしらで左に設定したポート番号を使用している場合は変更する。(右はwebサーバー複数立ち上げるとか変なことしない限り一つのコンテナ内で完結している為番号変更の必要はない。）
+    ports:
+      - "80:80"
+    #コンテナ間の接続コマンド。指定した先の方からコンテナが起動する。今回の場合だとappコンテナ->web_serverの順に起動する。
+    #ローカルとコンテナ内のファイルの接続をするコマンド
+    volumes:
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - app_network
+    depends_on:
+      - ruby
+
+# postgresqlに関してのコンテナ設定
+  postgresql:
+    build:
+      context: .
+      dockerfile: ./docker/postgresql/Dockerfile
+      # 左側は現在の実行コンテナやローカル環境にも依存するが基本はpostgresqlコンテナのデフォルト番号,
+      # 5432でok。右の方は5432で固定。
+    ports:
+      - 5432:5432
+    # memo:今のままの設定だとあまりにも雑過ぎるのでセキュアな設定方法を詮索する
+    environment:
+      POSTGRES_DB: root
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      TZ: 'Asia/Tokyo'
+    volumes:
+    # 本来は/var/lib/postgresql/dataを指定先にするのがベターだが何故かdata内のファイル
+    # の初期化周りで引っかかるので応急処置的に:/var/wwwにしている。
+      - postgresql-volume:/var/www/html
+    networks:
+      - app_network
+    # 上のservicesとvolumesの親子関係を正しても×。なぜか下の一文を追加したらいけた。理由はわからない。
+    # またダメになってたらこのコメントを消して実行する。
+volumes:   # volumesセクションを追加
+  postgresql-volume:  # mysql-volumeボリュームを定義
+
+networks:
+  app_network:
+

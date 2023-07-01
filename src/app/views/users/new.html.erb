@@ -1,0 +1,49 @@
+<% provide(:title, 'Sign up') %>
+<h1>SignUp</h1>
+
+<div class="#">
+  <div class="#">
+    <%# |f| のところはブロック変数と呼ぶ。form_for(@user)をブロック変数に入れて
+    そこから.labelなど関連メソッドを呼び出している  %>
+    <%# html: { novalidate: true }はデフォルトの吹き出しエラー文を削除するフラグ管理 %>
+
+    <%# この場合、html: { novalidate: true }は生成されるフォームタグにnovalidate属性を追加します。
+    novalidateはHTML5で導入された属性で、ブラウザの標準的なバリデーション機能を無効にします。 %>
+    <%# ここの@userを元にモデルファイルとの紐付けをしているのでここしっかりしないと
+    バリテーションができない %>
+    <%= form_for(@user,html: { novalidate: true }) do |f| %>
+      <%# f.objectはエラーメッセージ関連を管理しているオブジェクト。これをshared/error_messages
+      に入れてエラーメッセージの管理をしている。 %>
+      <%= render 'shared/error_messages', object: f.object %>
+
+      <%= f.label :email %>
+      <%= f.email_field :email, class: '#' %>
+      <%# html: { novalidate: true })のでその分の代わりのエラーメッセージの管理 %>
+      <% if f.object.errors[:email].any? %>
+        <div class="#">
+          <%= f.object.errors[:email].first %>
+        </div>
+      <% end %>
+
+      <%= f.label :password %>
+      <%= f.password_field :password, class: '#' %>
+      <%# html: { novalidate: true })のでその分の代わりのエラーメッセージの管理 %>
+      <% if f.object.errors[:password].any? %>
+        <div class="#">
+          <%= f.object.errors[:password].first %>
+        </div>
+      <% end %>
+
+      <%= f.label :password_confirmation, class:  "#" %>
+      <%= f.password_field :password_confirmation, class: '#' %>
+      <%# html: { novalidate: true })のでその分の代わりのエラーメッセージの管理 %>
+      <% if f.object.errors[:password_confirmation].any? %>
+        <div class="#">
+          <%= f.object.errors[:password_confirmation].first %>
+        </div>
+      <% end %>
+
+      <%= f.submit "Create my account", class: "#" %>
+    <% end %>
+  </div>
+</div>

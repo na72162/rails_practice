@@ -1,0 +1,10 @@
+<%# # new（新規作成フォーム）
+# get '/users/new', to: 'users#new' などをlink_toでジャンプ先に
+したいのならresources :usersで指定してアクションの所、例えば
+get '/users/new', to: 'users#new'を反対にnew_user_pathとジャンプさせる。
+resources :usersを使わない場合はget '/users/new', to: 'users#new'に
+, as: 'users_new'をつけてlink_toにnew_user_pathをつける。
+%>
+
+<div><%= link_to "SignUp", users_new_path, class: "#" %></div>
+<div><%= link_to "Login", users_new_path, class: "#" %></div>
