@@ -9,9 +9,10 @@
 
     <%# この場合、html: { novalidate: true }は生成されるフォームタグにnovalidate属性を追加します。
     novalidateはHTML5で導入された属性で、ブラウザの標準的なバリデーション機能を無効にします。 %>
-    <%# ここの@userを元にモデルファイルとの紐付けをしているのでここしっかりしないと
+    <%# ここの@signupを元にモデルファイルとの紐付けをしているのでここしっかりしないと
     バリテーションができない %>
-    <%= form_for(@user,html: { novalidate: true }) do |f| %>
+    <%# インスタンス名は融通効くっぽいけどフォルダはかなり制限かかってる %>
+    <%= form_for(@signup,html: { novalidate: true }) do |f| %>
       <%# f.objectはエラーメッセージ関連を管理しているオブジェクト。これをshared/error_messages
       に入れてエラーメッセージの管理をしている。 %>
       <%= render 'shared/error_messages', object: f.object %>

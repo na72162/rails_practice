@@ -3,24 +3,26 @@ root "static_pages#home"
 
 # new（新規作成フォーム）
 
-get '/users/new', to: 'users#new', as: 'users_new'
+get '/signup/new', to: 'users#new', as: 'signup_new'
 
 # create（新規作成）
 # 基本的にはデータの経由の役割なので専用画面はいらない
-post '/users', to: 'users#create'
+resources :users, only: [:create]
 
 # show（詳細表示）
-get '/users/:id', to: 'users#show'
+get '/mypage/:id', to: 'mypage#show'
 
 # edit（編集フォーム）
-get '/users/:id/edit', to: 'users#edit'
+get '/signup/:id/edit', to: 'users#edit'
 
 # update（更新）
-patch '/users/:id', to: 'users#update'
-put '/users/:id', to: 'users#update'
+patch '/signup/:id', to: 'users#update'
+put '/signup/:id', to: 'users#update'
 
 # destroy（削除）
-delete '/users/:id', to: 'users#destroy'
+delete '/signup/:id', to: 'users#destroy'
+
+
 
 # asは_を使う際は複数のファイルを跨ぐ際などに使う：例get '/users/new',
 # to: 'users#new', as: 'users_new'

@@ -6,5 +6,5 @@ resources :usersを使わない場合はget '/users/new', to: 'users#new'に
 , as: 'users_new'をつけてlink_toにnew_user_pathをつける。
 %>
 
-<div><%= link_to "SignUp", users_new_path, class: "#" %></div>
-<div><%= link_to "Login", users_new_path, class: "#" %></div>
+<div><%= link_to "SignUp", signup_new_path, class: "#" %></div>
+<%# <div><%= link_to "Login", users_new_path, class: "#" %>

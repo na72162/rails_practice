@@ -3,20 +3,20 @@ class UsersController < ApplicationController
   def new
     # レンダーを使ってインスタンス変数をやり取りしないと
     # データの保持ができない
-    @user = User.new
+    @signup = User.new
     render 'new'
   end
 
   def create
     # ここのUserはUserモデルを引っ張ってきている。そこで継承されているクラスからnewメソッドを引っ張ってきている。
-    @user = User.new(user_params)
-    if @user.save
+    @signup = User.new(user_params)
+    if @signup.save
       # 最終ログイン日時を現在日時に
       session[:login_date] = Time.current
       # ログイン制限時間を設定
       session[:login_limit] = 60.minutes
       # ユーザーIDを格納
-      session[:user_id] = @user.id
+      session[:user_id] = @signup.id
       # デバック情報の確認
       debug_session
       #フラッシュメッセージ
