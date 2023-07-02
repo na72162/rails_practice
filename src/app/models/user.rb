@@ -12,5 +12,11 @@ class User < ApplicationRecord
   # ハッシュ化されたパスワードを保存する処理
   has_secure_password
   validates :password, presence: true, length: { minimum: 6 }
+
+  def generate_session_token
+    # selfはこのクラスを元に生成されたインスタンスを指す。
+    self.session_token = SecureRandom.urlsafe_base64
+  end
+
 end
 

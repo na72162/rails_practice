@@ -1,0 +1,29 @@
+<% provide(:title, "Log in") %>
+<h1>Log in</h1>
+
+<div class="#">
+  <div class="#">
+      <%= form_for(@login, as: :session, html: { novalidate: true }) do |f| %>
+
+      <%= f.label :email %>
+      <%= f.email_field :email, class: '#' %>
+      <% if f.object.errors[:email].any? %>
+        <div class="#">
+          <%= f.object.errors[:email].first %>
+        </div>
+      <% end %>
+
+      <%= f.label :password %>
+      <%= f.password_field :password, class: '#' %>
+      <% if f.object.errors[:password].any? %>
+        <div class="#">
+          <%= f.object.errors[:password].first %>
+        </div>
+      <% end %>
+
+      <%= f.submit "ログイン", class: "#" %>
+    <% end %>
+
+    <p>ユーザー登録を済ませてませんか？ <%= link_to "ユーザー登録", signup_new_path %></p>
+  </div>
+</div>

@@ -2,7 +2,8 @@
 <nav>
   <ul>
     <% if logged_in? %>
-    <%= current_user.id %>
+    <%= current_user.inspect %>
+    <%= current_user.attributes %>
       <%# <%= link_to 'Profile', current_user
       <li><%= link_to 'Logout', logout_path,</li> %>
     <% else %>

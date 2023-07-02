@@ -11,12 +11,20 @@ class UsersController < ApplicationController
     # ここのUserはUserモデルを引っ張ってきている。そこで継承されているクラスからnewメソッドを引っ張ってきている。
     @signup = User.new(user_params)
     if @signup.save
+      # 現在のセッションの破棄
+      reset_session
+      # セッション情報の保存
+      # idの保存
+      session[:user_id] = @signup.id
+      # セッションハイジャック対策の為のトークン生成
+      session[:session_token] = @signup.generate_session_token
+      # トークン生成後にdb側に保存
+      @signup.update(session_token: session[:session_token])
       # 最終ログイン日時を現在日時に
       session[:login_date] = Time.current
       # ログイン制限時間を設定
       session[:login_limit] = 60.minutes
       # ユーザーIDを格納
-      session[:user_id] = @signup.id
       # デバック情報の確認
       debug_session
       #フラッシュメッセージ
@@ -51,4 +59,10 @@ class UsersController < ApplicationController
   def debug_session
     Rails.logger.debug "Session Data: #{session.inspect}"
   end
+
+  private
+  def generate_session_token
+    self.session_token = SecureRandom.urlsafe_base64
+  end
+
 end
