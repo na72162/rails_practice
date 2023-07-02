@@ -7,4 +7,11 @@ resources :usersを使わない場合はget '/users/new', to: 'users#new'に
 %>
 
 <div><%= link_to "SignUp", signup_new_path, class: "#" %></div>
-<%# <div><%= link_to "Login", users_new_path, class: "#" %>
+<div><%= link_to "Login", login_new_path, class: "#" %></div>
+<%= link_to "Logout", logout_destroy_path, method: :delete %>
+
+<%# 他のルーティングだとget扱いになる。
+例:<><%= link_to "Login", login_new_path, class: "#" %>
+<%# deleteのあルーティングを求める場合はmethod: :delete等を求める。
+<%= link_to "Logout", logout_destroy_path, method: :delete %>
+
