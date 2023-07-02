@@ -11,7 +11,7 @@ resources :users, only: [:create]
 
 get  "/login/new",  to: "sessions#new", as: 'login_new'
 post "/login/create",  to: "sessions#create"
-delete '/logout', to: 'sessions#destroy', as: 'logout_destroy'
+delete '/logout', to: 'sessions#destroy'
 
 # edit（編集フォーム）
 get '/signup/:id/edit', to: 'users#edit'

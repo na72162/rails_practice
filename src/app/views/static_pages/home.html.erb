@@ -8,7 +8,20 @@ resources :usersを使わない場合はget '/users/new', to: 'users#new'に
 
 <div><%= link_to "SignUp", signup_new_path, class: "#" %></div>
 <div><%= link_to "Login", login_new_path, class: "#" %></div>
-<%= link_to "Logout", logout_destroy_path, method: :delete %>
+<%= button_to "Logout", '/logout', method: :delete, class: "#", data: { "turbo-method": :delete }, form: { "data-turbo-action": "replace" } %>
+
+
+<% if logged_in? %>
+  <%= current_user.inspect %>
+  <%= current_user.attributes %>
+    <%# <%= link_to 'Profile', current_user
+    <li><%= link_to 'Logout', logout_path,</li> %>
+  <% else %>
+  セッション情報はありません。
+<% end %>
+<%# 上記のコードではform: { "data-turbo-action": "replace" }を追加しています。これは、ログアウト後にページ全体を再読み込みするためのものです。
+これがないと、ログアウト後も現在のページが表示され続ける可能性があります。 %>
+
 
 <%# 他のルーティングだとget扱いになる。
 例:<><%= link_to "Login", login_new_path, class: "#" %>

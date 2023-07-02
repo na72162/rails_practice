@@ -5,6 +5,47 @@ class SessionsController < ApplicationController
     render 'new'
   end
 
+  def destroy
+    log_out if logged_in?
+    reset_session
+    flash[:success] = "ログアウトしました"
+    redirect_to root_url, status: :see_other
+  end
+
+  private
+  def log_out
+    forget(current_user)
+    reset_session
+    @current_user = nil
+    # memo:この辺の@current_userのインスタンス変数が
+    # どう影響するのか調べる
+  end
+
+  private
+  def log_in(user)
+    session[:user_id] = user.id
+    session[:session_token] = user.session_token
+  end
+
+  private
+  def current_user
+    if (user_id = session[:user_id])
+      user = User.find_by(id: user_id)
+      if user && session[:session_token] == user.session_token
+        @current_user = user
+      end
+    elsif (user_id = cookies.encrypted[:user_id])
+      user = User.find_by(id: user_id)
+      if user && user.authenticated?(:remember, cookies[:remember_token])
+        log_in user
+        @current_user = user
+      end
+    end
+  end
+
+  #memo:おそらく下の処理に問題があるためヘルパーメソッドをあえて上の方にしている。あとヘルパーメソッドを
+  #別ファイルに分けてもなぜかうまくいかないので今度切り分けの方は別途試す。
+
   def create
     @login = User.new(user_params)
     # この例では、session[:session_token] を User モデルの session_token カラムに保存しています。
@@ -40,35 +81,6 @@ class SessionsController < ApplicationController
       render "new"
     end
 
-    def destroy
-      log_out
-      flash[:success] = "ログアウトしました"
-      redirect_to root_url, status: :see_other
-    end
-
-  #   ActionController::ParameterMissing in UsersController#create
-  # param is missing or the value is empty: user
-  # Did you mean?
-  # session
-  # authenticity_token
-  # controller
-  # action
-  # Extracted source (around line #54):
-  # 52
-  # 53
-  # 54
-  # 55
-  # 56
-  # 57
-
-  #     # .permitは:userの配列の中に指定したキー。:name, :email, :password,
-  #     # :password_confirmationがあるかどうかを確認するメソッド。
-  #     params.require(:user).permit(:email, :password,
-  #     :password_confirmation)
-  #   end
-
-  ############################### 次回ここのエラーの解決から入る。
-
     def user_params
       # .permitは:userの配列の中に指定したキー。:name, :email, :password,
       # :password_confirmationがあるかどうかを確認するメソッド。
@@ -81,5 +93,3 @@ class SessionsController < ApplicationController
     end
   end
 end
-
-次エラーの解決
