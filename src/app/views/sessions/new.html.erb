@@ -3,7 +3,16 @@
 
 <div class="#">
   <div class="#">
-      <%= form_for(@login, as: :session, html: { novalidate: true }) do |f| %>
+    <%# form_withはオプションがたくさんある分ログインなどの時に使いがち。(登録処理の時などは
+    インスタンス変数等ある分遷移周りの問題がないから的な・・・？) %>
+    <%# <%= form_for(@login, url: { controller: "sessions", action: "create" }, html: { novalidate: true }) do |f| %> %>
+    <%# url: login_pathはルーティングに必要なオプション。今回の場合はインスタンス変数を
+    使っていないので明示的にルーティングパスの指定が必要。例:url: login_pathなら対象ルーティング
+    側はget  "/login/new",  to: "sessions#new", as: 'login'みたいにasを指定する。
+    。scope: :sessionはここのフォームで入力されたバリューをセッションというキーで管理する。 %>
+    <%= form_with(url: login_mew_path, scope: :session) do |f| %>
+
+      <%= render 'shared/error_messages', object: f.object %>
 
       <%= f.label :email %>
       <%= f.email_field :email, class: '#' %>
