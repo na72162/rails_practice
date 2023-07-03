@@ -1,8 +1,9 @@
 class SessionsController < ApplicationController
 
+  # ユーザー登録と違ってこっちはデータを引っ張ってくるだけなのでUser.newなどの
+  # こっちのデータを保存する為の様な事はいらない。
   def new
-    @login = User.new
-    render 'new'
+    render new
   end
 
   def destroy
@@ -29,7 +30,10 @@ class SessionsController < ApplicationController
 
   private
   def current_user
+    # @無しがローカル変数、有りがインスタンス変数。ローカルはその場の処理でしか使えない。
+    # インスタンス変数は他の処理の受け渡しやクラス内でのやり取りで主に使う。
     if (user_id = session[:user_id])
+      # (id: user_id)のid側はDBのカラムを指定していてuser_idは
       user = User.find_by(id: user_id)
       if user && session[:session_token] == user.session_token
         @current_user = user
@@ -47,14 +51,22 @@ class SessionsController < ApplicationController
   #別ファイルに分けてもなぜかうまくいかないので今度切り分けの方は別途試す。
 
   def create
-    @login = User.new(user_params)
+    # 基本モデルクラスはグローバルなので途中のnewの所でUser宣言などしなくても
+    # ActiveRecord内のメソッドを扱う目当てでUserを使う事ができる。
+    # [:session][:email]は前のフォーム段階でscope: :sessionと指定しているので
+    # params[:session][:email]となっている。
+    login = User.find_by(email: params[:session][:email].downcase)
     # この例では、session[:session_token] を User モデルの session_token カラムに保存しています。
     # ログイン情報とemail情報両方を一括判定させて悪意のある人にどっちがあっているかの情報を与えるのを避ける
-    if user = User.find_by(email: @login.email, password: @login.password)
+    # 下の処理だとユーザー登録段階でユーザーモデルでhas_secure_passwordを使っているのでパスワードがハッシュ化
+    # されているので検索できない。
+    # if user = User.find_by(email: @login.email, password_digest: @login.password)
+    # authenticateはhas_secure_passwordでハッシュ化されたパスワードの解析に必要。
+    if user && user.authenticate(params[:session][:password])
       reset_session
       # セッション情報の保存
       # idの保存
-      session[:user_id] = @login.id
+      session[:user_id] = user.id
       # セッションハイジャック対策の為のトークン生成
       session[:session_token] = @login.generate_session_token
       # トークン生成後にdb側に保存

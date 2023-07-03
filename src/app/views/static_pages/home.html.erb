@@ -7,7 +7,7 @@ resources :usersを使わない場合はget '/users/new', to: 'users#new'に
 %>
 
 <div><%= link_to "SignUp", signup_new_path, class: "#" %></div>
-<div><%= link_to "Login", login_new_path, class: "#" %></div>
+<div><%= link_to "Login", login_mew_path, class: "#" %></div>
 <%= button_to "Logout", '/logout', method: :delete, class: "#", data: { "turbo-method": :delete }, form: { "data-turbo-action": "replace" } %>
 
 
