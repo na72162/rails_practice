@@ -5,7 +5,7 @@ ruby '3.1.4'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
 gem "rails","7.0.4"
-gem 'puma', '~> 5.6.4'
+gem 'puma', '~> 6.3.0'
 gem 'sass-rails', '>= 6'
 gem 'webpacker', '~> 5.0'
 gem 'sqlite3'
@@ -14,9 +14,14 @@ gem 'jbuilder', '~> 2.7'
 gem 'bootsnap', '>= 1.4.4', require: false
 gem 'selenium-webdriver', '4.9.0'
 gem "bcrypt","3.1.18"
+gem "skylight"
 gem 'pry'
+gem 'rails-dom-testing'
 gem 'rspec-rails', '~> 5.0.0'
 gem 'rails-i18n', '~> 7.0'
+gem 'activesupport', '>= 4.2.0'
+gem 'nokogiri', '>= 1.6'
+gem 'nio4r', '~> 2.0'
 
 
 group :development, :test do

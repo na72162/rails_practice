@@ -131,7 +131,7 @@ GEM
       coderay (~> 1.1)
       method_source (~> 1.0)
     public_suffix (5.0.1)
-    puma (5.6.6)
+    puma (6.3.0)
       nio4r (~> 2.0)
     racc (1.7.1)
     rack (2.2.7)
@@ -211,6 +211,8 @@ GEM
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
     semantic_range (3.0.0)
+    skylight (5.3.4)
+      activesupport (>= 5.2.0)
     spring (4.1.1)
     sprockets (4.2.0)
       concurrent-ruby (~> 1.0)
@@ -258,21 +260,26 @@ PLATFORMS
   x86_64-darwin-22
 
 DEPENDENCIES
+  activesupport (>= 4.2.0)
   bcrypt (= 3.1.18)
   bootsnap (>= 1.4.4)
   byebug
   capybara (>= 3.26)
   jbuilder (~> 2.7)
   listen (~> 3.3)
+  nio4r (~> 2.0)
+  nokogiri (>= 1.6)
   pg (~> 1.2)
   pry
-  puma (~> 5.6.4)
+  puma (~> 6.3.0)
   rack-mini-profiler (~> 2.0)
   rails (= 7.0.4)
+  rails-dom-testing
   rails-i18n (~> 7.0)
   rspec-rails (~> 5.0.0)
   sass-rails (>= 6)
   selenium-webdriver (= 4.9.0)
+  skylight
   spring
   sqlite3
   turbo-rails (~> 1.4)
