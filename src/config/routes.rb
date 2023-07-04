@@ -2,6 +2,7 @@ Rails.application.routes.draw do
 root "static_pages#home"
 
 # new（新規作成フォーム）
+# getやpostなどはHTTPメソッドという。
 
 get '/signup/new', to: 'users#new', as: 'signup_new'
 
@@ -12,6 +13,9 @@ resources :users, only: [:create]
 get  "/login/new",  to: "sessions#new", as: 'login_mew'
 post "/login/create",  to: "sessions#create",as: 'login_create'
 delete '/logout', to: 'sessions#destroy'
+
+get '/withdraw', to: 'withdraw#new'
+patch '/withdraw', to: 'withdraw#patch', as: 'withdraw_patch'
 
 # show（詳細表示）
 get '/mypage/:id', to: 'mypage#show'
