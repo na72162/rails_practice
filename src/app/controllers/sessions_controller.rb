@@ -36,25 +36,37 @@ class SessionsController < ApplicationController
   #   end
   # end
 
+    # def create
+    #   user = User.find_by(email: params[:session][:email].downcase)
+    #   if user && user.authenticate(params[:session][:password])
+    #     if user.activated?
+    #       reset_session
+    #       if session[:user_id]
+    #       session[:login_date] = Time.current
+    #       session[:login_limit] = 60.minutes
+    #         debug_session
+    #         flash[:success] = "ログインに成功しました！"
+    #         redirect_to root_url
+    #       else
+    #         message  = "ログインに失敗しました "
+    #         message += "emailとパスワードの確認をお願いします。"
+    #         flash[:warning] = message
+    #         redirect_to root_url
+    #       end
+    #     end
+    #   end
+    # end
+
     def create
       user = User.find_by(email: params[:session][:email].downcase)
       if user && user.authenticate(params[:session][:password])
-        if user.activated?
-          reset_session
-          if session[:user_id]
-          session[:login_date] = Time.current
-          session[:login_limit] = 60.minutes
-            debug_session
-            flash[:success] = "ログインに成功しました！"
-            redirect_to mypage_path
-          else
-            message  = "ログインに失敗しました "
-            message += "emailとパスワードの確認をお願いします。"
-            flash[:warning] = message
-            redirect_to mypage_path
-            # redirect_to login_new_path
-          end
-        end
+        reset_session
+        log_in user
+        redirect_to mypage_path
+      else
+        flash.now[:danger] = 'Emailもしくはパスワードが違います。'
+        # データの更新が無い為renderにする
+        render 'new', status: :unprocessable_entity
       end
     end
 

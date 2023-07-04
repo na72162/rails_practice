@@ -12,17 +12,17 @@
     <%# ログインにも細かいエラー関係のメッセージ入れようかと思ったけどユーザー登録時点で
     ログインに扱うデータはバリテーションチェックが入っているので必要最低限に %>
 
-  <div class="row">
-    <div class="col-md-6 col-md-offset-3">
+  <div>
+    <div>
       <%= form_with(url: login_create_path, scope: :session) do |f| %>
 
         <%= f.label :email %>
-        <%= f.email_field :email, class: 'form-control' %>
+        <%= f.email_field :email %>
 
         <%= f.label :password %>
-        <%= f.password_field :password, class: 'form-control' %>
+        <%= f.password_field :password %>
 
-        <%= f.submit "ログイン", class: "btn btn-primary" %>
+        <%= f.submit "ログイン" %>
       <% end %>
 
       <p>ユーザー登録を済ませてませんか？ <%= link_to "ユーザー登録", signup_new_path %></p>
