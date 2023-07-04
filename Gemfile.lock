@@ -211,8 +211,6 @@ GEM
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
     semantic_range (3.0.0)
-    skylight (5.3.4)
-      activesupport (>= 5.2.0)
     spring (4.1.1)
     sprockets (4.2.0)
       concurrent-ruby (~> 1.0)
@@ -279,7 +277,6 @@ DEPENDENCIES
   rspec-rails (~> 5.0.0)
   sass-rails (>= 6)
   selenium-webdriver (= 4.9.0)
-  skylight
   spring
   sqlite3
   turbo-rails (~> 1.4)

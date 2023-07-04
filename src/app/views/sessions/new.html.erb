@@ -1,4 +1,30 @@
 <% provide(:title, "Log in") %>
 <h1>Log in</h1>
+<div class="#">
+  <div class="#">
+    <%# form_withはオプションがたくさんある分ログインなどの時に使いがち。(登録処理の時などは
+    インスタンス変数等ある分遷移周りの問題がないから的な・・・？) %>
+    <%# <%= form_for(@login, url: { controller: "sessions", action: "create" }, html: { novalidate: true }) do |f| %> %>
+    <%# url: login_pathはルーティングに必要なオプション。今回の場合はインスタンス変数を
+    使っていないので明示的にルーティングパスの指定が必要。例:url: login_pathなら対象ルーティング
+    側はget  "/login/new",  to: "sessions#new", as: 'login'みたいにasを指定する。
+    。scope: :sessionはここのフォームで入力されたバリューをセッションというキーで管理する。 %>
+    <%# ログインにも細かいエラー関係のメッセージ入れようかと思ったけどユーザー登録時点で
+    ログインに扱うデータはバリテーションチェックが入っているので必要最低限に %>
 
+  <div>
+    <div>
+      <%= form_with(url: login_create_path, scope: :session) do |f| %>
 
+        <%= f.label :email %>
+        <%= f.email_field :email %>
+
+        <%= f.label :password %>
+        <%= f.password_field :password %>
+
+        <%= f.submit "ログイン" %>
+      <% end %>
+
+      <p>ユーザー登録を済ませてませんか？ <%= link_to "ユーザー登録", signup_new_path %></p>
+    </div>
+  </div>
