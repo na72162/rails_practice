@@ -18,6 +18,9 @@ class User < ApplicationRecord
     self.session_token = SecureRandom.urlsafe_base64
   end
 
+  # 特定のインスタンスからactivated属性を引っ張ってくるメソッド
+  # ユーザーモデルがユーザー情報が認識されているかの真偽値属性を持っているのでそこから
+  # ユーザーがログインしているかどうかの真偽値を取得。確認する。
   def activated?
     self.activated
   end

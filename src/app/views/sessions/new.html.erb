@@ -11,17 +11,20 @@
     。scope: :sessionはここのフォームで入力されたバリューをセッションというキーで管理する。 %>
     <%# ログインにも細かいエラー関係のメッセージ入れようかと思ったけどユーザー登録時点で
     ログインに扱うデータはバリテーションチェックが入っているので必要最低限に %>
-    <%= form_with(url: login_create_path, scope: :session, local: true) do |f| %>
 
-      <%= f.label :email %>
-      <%= f.email_field :email, class: '#' %>
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      <%= form_with(url: login_create_path, scope: :session) do |f| %>
 
-      <%= f.label :password %>
-      <%= f.password_field :password, class: '#' %>
+        <%= f.label :email %>
+        <%= f.email_field :email, class: 'form-control' %>
 
-      <%= f.submit "ログイン", class: "#" %>
-    <% end %>
+        <%= f.label :password %>
+        <%= f.password_field :password, class: 'form-control' %>
 
-    <p>ユーザー登録を済ませてませんか？ <%= link_to "ユーザー登録", signup_new_path %></p>
+        <%= f.submit "ログイン", class: "btn btn-primary" %>
+      <% end %>
+
+      <p>ユーザー登録を済ませてませんか？ <%= link_to "ユーザー登録", signup_new_path %></p>
+    </div>
   </div>
-</div>

@@ -14,7 +14,6 @@ gem 'jbuilder', '~> 2.7'
 gem 'bootsnap', '>= 1.4.4', require: false
 gem 'selenium-webdriver', '4.9.0'
 gem "bcrypt","3.1.18"
-gem "skylight"
 gem 'pry'
 gem 'rails-dom-testing'
 gem 'rspec-rails', '~> 5.0.0'
