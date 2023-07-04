@@ -38,6 +38,10 @@ class UsersController < ApplicationController
     end
   end
 
+  def patch
+    redirect_to withdraw_path
+  end
+
   def show
   end
 

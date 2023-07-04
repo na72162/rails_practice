@@ -1,0 +1,19 @@
+<div>退会ページ</div>
+<% if logged_in? %>
+
+  <%= form_with(url: withdraw_patch_path, method: :patch, scope: :session) do |f| %>
+
+    <%= current_user.email %><br>
+    <div>現在ログイン中のユーザーに退会処理をします。</div><br>
+
+    <%= f.submit "退会する" %>
+  <% end %>
+
+  <%= current_user.inspect %>
+  <%= current_user.attributes %>
+    <%# <%= link_to 'Profile', current_user
+    <li><%= link_to 'Logout', logout_path,</li> %>
+  <% else %>
+  <%# セッション情報なしで直リンクなどで来た場合はホームに返す処理入れてもいいかも %>
+  セッション情報はありません。
+<% end %>

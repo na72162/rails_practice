@@ -7,9 +7,11 @@ resources :usersを使わない場合はget '/users/new', to: 'users#new'に
 %>
 
 <div><%= link_to "SignUp", signup_new_path, class: "#" %></div>
-<div><%= link_to "Login", login_mew_path, class: "#" %></div>
-<%= button_to "Logout", '/logout', method: :delete, class: "#", data: { "turbo-method": :delete }, form: { "data-turbo-action": "replace" } %>
-
+<div><%= link_to "Login", login_mew_path, class: "#"%></div>
+<%# turboはフォーム送信後のリダイレクトを期待する場合のみに使う。 %>
+<div><%= button_to "Logout", '/logout', method: :delete, class: "#", data: { "turbo-method": :delete }, form: { "data-turbo-action": "replace" } %></div>
+<div><%= link_to "withdraw", withdraw_path, class: "#" %></div>
+<%# <div><%= link_to "withdraw", withdraw_patch_path, method: :patch, class: "#", data: { "turbo-method": :patch }, form: { "data-turbo-action": "replace" } %></div> %>
 
 <% if logged_in? %>
   <%= current_user.inspect %>
