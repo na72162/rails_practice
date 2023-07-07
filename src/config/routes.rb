@@ -17,6 +17,12 @@ delete '/logout', to: 'sessions#destroy'
 get '/withdraw', to: 'withdraw#new'
 patch '/withdraw', to: 'withdraw#patch', as: 'withdraw_patch'
 
+# 複数単語が並ぶ際には間に_を挟まないとエラーになる。to: ○'user_mailer#new、❌usermailer#new
+get '/usermailer', to: 'user_mailer#pass_remind_send', as: 'user_mailer'
+post '/password_resets', to: 'password_resets#create', as: 'password_resets'
+resources :password_resets, only: [:new, :edit, :update]
+
+
 # show（詳細表示）
 get '/mypage/:id', to: 'mypage#show'
 

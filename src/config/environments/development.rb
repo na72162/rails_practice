@@ -38,6 +38,9 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = false
 
+  # memo:メイラーコントローラーの為に加えたもの。
+  config.action_mailer.default_url_options = { host: 'localhost', port: 80 }
+
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 

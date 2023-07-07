@@ -1,0 +1,12 @@
+<p>本メールアドレス宛にパスワードの再発行を致しました。</p>
+<p>下記のURLにて再発行パスワードをご入力頂き、ログインください。</p>
+
+<p>ログインページ： <%= edit_password_reset_url(@user.reset_token, email: @user.email) %></p>
+<p>※ログイン後、パスワードのご変更をお願い致します</p>
+
+<%# app/views/メーラーのクラス名/アクション名.html.erb
+やapp/views/メーラーのクラス名/アクション名.text.erb %>
+
+<%# この場合、template_name: 'passRemindSend'と指定されているので、メ
+ールの本文としてapp/views/user_mailer/passRemindSend.html.erbや
+app/views/user_mailer/passRemindSend.text.erb %>
