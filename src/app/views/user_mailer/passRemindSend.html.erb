@@ -1,0 +1,39 @@
+<div id="contents" class="site-width">
+
+  <!-- Main -->
+  <section id="main">
+
+    <div class="form-container">
+      <%# local: trueは全体変更(同期処理)に変更するもの。デフォルトは非同期処理 %>
+      <%# password_resets_urlは通常password_resets_pathの様に指定するがメール送信
+      の場合の時などはhpassword_resets_urlと指定する。 %>
+
+      <%= password_resets_url(host: 'localhost', port: 80) %>
+
+
+
+      <%= form_with(url: password_resets_url, local: true, method: :post, class: 'form') do |f| %>
+        <p>ご指定のメールアドレス宛に再発行用パスワードをお送り致します。</p>
+        <div class="area-msg">
+            <% if @message %>
+              <%= @message %>
+            <% end %>
+        </div>
+        <label class="<%= 'err' if @user.errors[:email].any? %>">
+          Email
+          <%= f.email_field :email, value: @user.email %>
+        </label>
+        <div class="area-msg">
+          <% if @user.errors[:email].any? %>
+            <%= @user.errors.full_messages_for(:email).join(", ") %>
+          <% end %>
+        </div>
+        <div class="btn-container">
+          <%= f.submit "送信する", class: "btn btn-mid" %>
+        </div>
+      <% end %>
+    </div>
+    <%= link_to "ホームに戻る", root_url %>
+  </section>
+
+</div>

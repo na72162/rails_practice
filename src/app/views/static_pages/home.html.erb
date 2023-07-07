@@ -11,7 +11,8 @@ resources :usersを使わない場合はget '/users/new', to: 'users#new'に
 <%# turboはフォーム送信後のリダイレクトを期待する場合のみに使う。 %>
 <div><%= button_to "Logout", '/logout', method: :delete, class: "#", data: { "turbo-method": :delete }, form: { "data-turbo-action": "replace" } %></div>
 <div><%= link_to "withdraw", withdraw_path, class: "#" %></div>
-<%# <div><%= link_to "withdraw", withdraw_patch_path, method: :patch, class: "#", data: { "turbo-method": :patch }, form: { "data-turbo-action": "replace" } %></div> %>
+<div><%= link_to "Usermailer", user_mailer_path, class: "#" %></div>
+<%# user_mailer_pathの第二引数はルーティングを指定している。 %>
 
 <% if logged_in? %>
   <%= current_user.inspect %>

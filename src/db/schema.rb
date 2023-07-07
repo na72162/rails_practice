@@ -10,9 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_04_074437) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_07_064501) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "user_mailers", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email"
@@ -29,6 +34,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_04_074437) do
     t.string "password_digest"
     t.boolean "activated"
     t.string "session_token"
+    t.datetime "reset_sent_at"
+    t.string "reset_token"
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
